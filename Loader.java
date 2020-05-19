@@ -7,10 +7,18 @@ public class Loader {
 	public static void main(final String[] args) throws MalformedURLException, InstantiationException, ClassNotFoundException, IllegalAccessException {
 		new A();
 		
-		URL classUrl = new URL("file:///Users/glenn/workspace/classloader-playground/letters/");
-		URL[] classUrls = { classUrl };
+		URL[] classUrls = { new URL("file:///Users/glenn/workspace/classloader-playground/letters/"),
+				    new URL("file:///Users/glenn/workspace/classloader-playground/letters/nested/") };
 		URLClassLoader ucl = new URLClassLoader(classUrls);
+
 		Class bClass = ucl.loadClass("letters.B");
 		bClass.newInstance();	
+
+		try {
+			Class cClass = ucl.loadClass("letters.nested.C");
+		} catch(ClassNotFoundException cnfe) {
+			System.out.println(cnfe);
+		}
+		cClass.newInstance();	
 	}
 }
